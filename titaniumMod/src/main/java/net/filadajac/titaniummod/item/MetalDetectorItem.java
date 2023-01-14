@@ -1,23 +1,17 @@
 package net.filadajac.titaniummod.item;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.block.Blocks;
+
 
 
 public class MetalDetectorItem extends Item {
-
-    private static final int entityCount = ForgeRegistries.ENTITY_TYPES.getValues().size() -1;
 
     public MetalDetectorItem(Properties properties) {
         super(properties);
@@ -26,28 +20,22 @@ public class MetalDetectorItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
 
-        int randomNumber = getRandomNumber();
-
-        if(!level.isClientSide) {
-            //EntityType.COW.spawn((ServerLevel) level, null, player, player.blockPosition(), MobSpawnType.COMMAND, true, false);
-            EntityType entityType = ((EntityType)ForgeRegistries.ENTITY_TYPES.getValues().toArray()[randomNumber]);
-            while(entityType.getCategory() != MobCategory.CREATURE && entityType.getCategory() != MobCategory.MONSTER) {
-                randomNumber = getRandomNumber();
-                entityType = ((EntityType)ForgeRegistries.ENTITY_TYPES.getValues().toArray()[randomNumber]);
+        if(level.isClientSide()) {
+            boolean isOre = level.getBlockStates(player.getBoundingBox().inflate(5)).filter(state -> state.is(Blocks.DIAMOND_ORE) ||  state.is(Blocks.DEEPSLATE_DIAMOND_ORE)).toArray().length > 0;
+            if (isOre) {
+                player.sendSystemMessage(Component.literal("Find diamond ore!"));
             }
-
-            entityType.spawn((ServerLevel) level, null, player, player.blockPosition(), MobSpawnType.COMMAND, true, false);
-
-        } else {
-            player.sendSystemMessage(Component.literal("Your number is " + randomNumber));
+            isOre = level.getBlockStates(player.getBoundingBox().inflate(5)).filter(state -> state.is(Blocks.IRON_ORE) ||  state.is(Blocks.DEEPSLATE_IRON_ORE)).toArray().length > 0;
+            if (isOre) {
+                player.sendSystemMessage(Component.literal("Find iron ore!"));
+            }
+            isOre = level.getBlockStates(player.getBoundingBox().inflate(5)).filter(state -> state.is(Blocks.GOLD_ORE) ||  state.is(Blocks.DEEPSLATE_GOLD_ORE)).toArray().length > 0;
+            if (isOre) {
+                player.sendSystemMessage(Component.literal("Find gold ore!"));
+            }
             player.getCooldowns().addCooldown(this, 20);
         }
-
         return super.use(level, player, interactionHand);
-    }
-
-    private int getRandomNumber() {
-        return RandomSource.createNewThreadLocalInstance().nextInt(entityCount);
     }
 
 }
