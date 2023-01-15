@@ -66,6 +66,7 @@ public class TitaniumMod {
                                 populator.accept(ModItems.TITANIUM_CHESTPLATE.get());
                                 populator.accept(ModItems.TITANIUM_HELMET.get());
                                 populator.accept(ModItems.TITANIUM_PICKAXE.get());
+                                populator.accept(ModItems.TITANIUM_AXE.get());
                                 populator.accept(ModItems.EIGHTBALL_ITEM.get());
                                 populator.accept(ModItems.METALDETECTOR_ITEM.get());
                             })

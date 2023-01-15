@@ -31,6 +31,8 @@ public class ModItems {
             () ->  new SwordItem(Tiers.NETHERITE, 4, -2.8F, (new Item.Properties()).fireResistant()));
     public static final RegistryObject<Item> EIGHTBALL_ITEM = ITEMS.register("eightball_item",
             () ->  new EightBallItem(new Item.Properties()));
+    public static final RegistryObject<Item> TITANIUM_AXE = ITEMS.register("titanium_axe",
+            () ->  new AxeItem(Tiers.NETHERITE, 1, -2.8F, (new Item.Properties()).fireResistant()));
     public static final RegistryObject<Item> METALDETECTOR_ITEM = ITEMS.register("metaldetector_item",
             () ->  new MetalDetectorItem(new Item.Properties()));
 
