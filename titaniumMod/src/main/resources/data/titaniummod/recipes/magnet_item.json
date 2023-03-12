@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "titaniummod:titanium"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "D R",
+    "D R",
+    " # "
+  ],
+  "result": {
+    "item": "titaniummod:magnet_item"
+  }
+}

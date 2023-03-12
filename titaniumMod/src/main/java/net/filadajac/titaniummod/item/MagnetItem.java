@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraftforge.registries.ForgeRegistries;
 
 
@@ -26,24 +28,27 @@ public class MagnetItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
 
-        int randomNumber = getRandomNumber();
-
-        if(!level.isClientSide) {
-            //EntityType.COW.spawn((ServerLevel) level, null, player, player.blockPosition(), MobSpawnType.COMMAND, true, false);
-            EntityType entityType = ((EntityType)ForgeRegistries.ENTITY_TYPES.getValues().toArray()[randomNumber]);
-            while(entityType.getCategory() != MobCategory.CREATURE && entityType.getCategory() != MobCategory.MONSTER) {
-                randomNumber = getRandomNumber();
-                entityType = ((EntityType)ForgeRegistries.ENTITY_TYPES.getValues().toArray()[randomNumber]);
-            }
-
-            entityType.spawn((ServerLevel) level, null, player, player.blockPosition(), MobSpawnType.COMMAND, true, false);
-
-        } else {
-            player.sendSystemMessage(Component.literal("Your number is " + randomNumber));
-            player.getCooldowns().addCooldown(this, 20);
-        }
 
         return super.use(level, player, interactionHand);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int p_42873_, boolean p_42874_) {
+  /*      if (!level.isClientSide) {
+            level.get
+            MapItemSavedData mapitemsaveddata = getSavedData(itemStack, level);
+            if (mapitemsaveddata != null) {
+                if (entity instanceof Player) {
+                    Player player = (Player)entity;
+                    mapitemsaveddata.tickCarriedBy(player, itemStack);
+                }
+
+                if (!mapitemsaveddata.locked && (p_42874_ || entity instanceof Player && ((Player)entity).getOffhandItem() == itemStack)) {
+                    this.update(level, entity, mapitemsaveddata);
+                }
+
+            }
+        } */
     }
 
     private int getRandomNumber() {
