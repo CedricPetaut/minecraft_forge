@@ -1,13 +1,15 @@
 package net.filadajac.titaniummod;
 
-import com.mojang.logging.LogUtils;
 import net.filadajac.titaniummod.block.ModBlocks;
+import net.filadajac.titaniummod.datagen.ModWorldGenProvider;
+import net.filadajac.titaniummod.item.ModCreativeModeTab;
 import net.filadajac.titaniummod.item.ModItems;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,7 +17,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
+
+import java.util.concurrent.CompletableFuture;
+
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(TitaniumMod.MODID)
@@ -32,13 +36,13 @@ public class TitaniumMod {
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-
+        modEventBus.addListener(this::addCreative);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
     }
 
-
+/*
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
@@ -76,6 +80,34 @@ public class TitaniumMod {
                                 populator.accept(ModItems.MAGNET_ITEM.get());
                             })
             );
+        }
+    }
+*/
+
+    private void addCreative(CreativeModeTabEvent.BuildContents event) {
+        if(event.getTab() == ModCreativeModeTab.TITANIUM_TAB) {
+            event.accept(ModItems.RAW_TITANIUM.get());
+            event.accept(ModItems.TITANIUM.get());
+            event.accept(ModBlocks.TITANIUM_ORE.get());
+            event.accept(ModBlocks.TITANIUM_BLOCK.get());
+            event.accept(ModItems.TITANIUM_LEGGINGS.get());
+            event.accept(ModItems.TITANIUM_BOOTS.get());
+            event.accept(ModItems.TITANIUM_CHESTPLATE.get());
+            event.accept(ModItems.TITANIUM_HELMET.get());
+            event.accept(ModItems.TITANIUM_PICKAXE.get());
+            event.accept(ModItems.TITANIUM_AXE.get());
+            event.accept(ModItems.TITANIUM_SHOVEL.get());
+            event.accept(ModItems.EIGHTBALL_ITEM.get());
+            event.accept(ModItems.METALDETECTOR_ITEM.get());
+
+        }
+    }
+
+    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
         }
     }
 }
